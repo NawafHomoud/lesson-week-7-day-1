@@ -6,13 +6,13 @@ var count = 0;
 // Below, we elaborate on what each function does
 
 // When the #new form is submitted, add the new item
-$("#ne1w").on("submit",addNewItem);
+$("#new").on("submit",addNewItem);
 // When an item gets clicked, mark as complete or incomplete
 
 // When a remove link is clicked, remove that item
 
 // When an edit link is clicked, go into edit mode
-
+$("#todos").on("click",".edit",editItem);
 // When an item editor is submitted, save the changes
 
 // When a user leaves an item editor form, save the changes
@@ -31,28 +31,43 @@ function updateCount() {
 
 }
 
-function addNewItem(event) {
-	// Prevent page reload
+function useData(data){
+  console.log(data);
+}
+
+function getData(event){
   event.preventDefault();
-	// Get the text the user entered
+  console.log('Hi');
+  $.get('https://pokeapi.co/api/v2/pokemon/pikachu',useData());
+}
+
+function addNewItem(event) {
+  event.preventDefault();
   const userInput = $("#newItem").val()
   console.log(userInput);
-	// Add an <li> with that text to the <ul>
-  //$("#todos").append("<li>" + userInput + "</li>");
-	// Update the count
+//  $("#todos").append("<li>" + userInput + "<span class='item'><a class='edit'>Edit</a><a class='remove'>Remove</a><span></li>");
+  $("#todos").append(`<li> <span id='id${count}'> ${userInput}</span> <span><a class='edit'>Edit</a><a class='remove'>Remove</a><span></li>`);
+  $("#newItem").val("");
+  $("#count").text(++count);
+
 }
 
 function removeItem(event) {
 	// Prevent page reload
+  event.preventDefault();
 	// The parent is the item; remove it
+
 	// The list has been changed, so update the count
 }
 
 function editItem(event) {
 
 	// Prevent page reload
+  event.preventDefault();
 	// Get the text of the to-do item; it's a sibling of the clicked link
-	// Get the parent <li>
+  const userInput = $(`#id${count} > .item`).text();
+  console.log(userInput);
+  // Get the parent <li>
 	// Replace the parent <li> contents with an edit form
 	// Focus the keyboard on the input that was just added
 }
